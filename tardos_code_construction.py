@@ -2,8 +2,8 @@ import numpy as np
 from random import random
 
 """ Constant variables """
-n = 20
-m = 3000
+n = 100
+m = 120
 c_max = 10
 t = 1 / (300 * c_max)
 
@@ -15,7 +15,6 @@ def tardos_distribution(p):
     else:
         indicator = 0
     kappa_t = 1 / (2 * (np.arcsin(np.sqrt(1 - t)) - np.arcsin(np.sqrt(t))))
-
     return indicator * kappa_t / (np.sqrt(p * (1 - p)))
 
 
@@ -43,21 +42,5 @@ def users_fingerprints(number_users, number_bits, p_list):
     return fingerprints
 
 
-secret_p = random_variable_p(m)
-secret_fingerprints = users_fingerprints(n, m, secret_p)
 
-import matplotlib.pyplot as plt
 
-plt.plot(np.linspace(0.001, 0.999, 1000), [tardos_distribution(p) for p in np.linspace(0.001, 0.999, 1000)])
-plt.show()
-plt.close()
-plt.plot(range(m), secret_p, '+')
-plt.show()
-
-from scipy.stats import arcsine
-
-""" compare our method to the simulation method computed by scipy"""
-r = arcsine.rvs(size=m, loc=t)
-plt.plot(range(m), secret_p, '+')
-plt.plot(range(m), r, '+')
-plt.show()
